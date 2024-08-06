@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getManifestos, getManifestoById } from '../../lib/manifesto'
+import path from 'path'
 
 export default function ManifestoPage({ manifesto }) {
   return (
@@ -16,7 +16,7 @@ export default function ManifestoPage({ manifesto }) {
               <div className="px-4 py-5 sm:p-6">
                 <p className="text-sm font-medium text-gray-500">Industry</p>
                 <p className="mt-1 text-lg text-gray-900">{manifesto.industry}</p>
-                <div className="mt-6 prose prose-indigo">{manifesto.content}</div>
+                <div className="mt-6 prose prose-indigo" dangerouslySetInnerHTML={{ __html: manifesto.content }} />
               </div>
             </div>
             <div className="mt-6">
@@ -32,14 +32,27 @@ export default function ManifestoPage({ manifesto }) {
 }
 
 export async function getStaticPaths() {
-  const manifestos = getManifestos()
-  const paths = manifestos.map((manifesto) => ({
-    params: { id: manifesto.id },
+  const manifestoFiles = require.context('../../content/manifesto', true, /\.md$/)
+  const paths = manifestoFiles.keys().map((fileName) => ({
+    params: { id: fileName.replace(/^\.\//, '').replace(/\.md$/, '') },
   }))
+  
   return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }) {
-  const manifesto = getManifestoById(params.id)
-  return { props: { manifesto } }
+  const manifestoFiles = require.context('../../content/manifesto', true, /\.md$/)
+  const manifestoContent = manifestoFiles(`./${params.id}.md`)
+  const { attributes, html } = manifestoContent
+
+  return { 
+    props: { 
+      manifesto: {
+        id: params.id,
+        title: attributes.title,
+        industry: attributes.industry,
+        content: html,
+      }
+    } 
+  }
 }
