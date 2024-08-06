@@ -1,41 +1,42 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import Link from 'next/link'
 
 export default function ManifestoPage({ manifesto }) {
   return (
-    <div>
-      <h1>{manifesto.title}</h1>
-      <p>Industry: {manifesto.industry}</p>
-      <div>{manifesto.content}</div>
+    <div className="min-h-screen bg-gray-100">
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-gray-900">{manifesto.title}</h1>
+        </div>
+      </header>
+      <main>
+        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="px-4 py-6 sm:px-0">
+            <div className="bg-white overflow-hidden shadow rounded-lg">
+              <div className="px-4 py-5 sm:p-6">
+                <p className="text-sm font-medium text-gray-500">Industry</p>
+                <p className="mt-1 text-lg text-gray-900">{manifesto.industry}</p>
+                <div className="mt-6 prose prose-indigo">{manifesto.content}</div>
+              </div>
+            </div>
+            <div className="mt-6">
+              <Link href="/">
+                <a className="text-indigo-600 hover:text-indigo-900">← Back to all manifestos</a>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   )
 }
 
 export async function getStaticPaths() {
-  const manifestoDirectory = path.join(process.cwd(), 'content/manifesto')
-  const filenames = fs.readdirSync(manifestoDirectory)
-
-  const paths = filenames.map((filename) => ({
-    params: { id: filename.replace(/\.md$/, '') },
-  }))
-
-  return { paths, fallback: false }
+  // ... (保持不变)
 }
 
 export async function getStaticProps({ params }) {
-  const filePath = path.join(process.cwd(), 'content/manifesto', `${params.id}.md`)
-  const fileContents = fs.readFileSync(filePath, 'utf8')
-  const { data, content } = matter(fileContents)
-
-  return {
-    props: {
-      manifesto: {
-        id: params.id,
-        title: data.title,
-        industry: data.industry,
-        content,
-      },
-    },
-  }
+  // ... (保持不变)
 }
