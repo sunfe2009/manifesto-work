@@ -1,7 +1,5 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import Link from 'next/link'
+import { getManifestos } from '../lib/manifesto'
 
 export default function Home({ manifestos }) {
   return (
@@ -36,5 +34,10 @@ export default function Home({ manifestos }) {
 }
 
 export async function getStaticProps() {
-  // ... (保持不变)
+  const manifestos = getManifestos()
+  return {
+    props: {
+      manifestos,
+    },
+  }
 }
