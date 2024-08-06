@@ -1,7 +1,6 @@
 ---
-   title: "Apple"
-   industry: "Technology"
-   tags: ["Innovation", "Design", "Privacy"]
-   ---
+title: "Apple"
+industry: "Technology"
+---
 
-   At Apple, we believe that technology should enrich human lives...
+At Apple, we believe in the power of innovation...
