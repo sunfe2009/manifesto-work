@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getManifestos } from '../lib/manifesto'
+import path from 'path'
 
 export default function Home({ manifestos }) {
   return (
@@ -34,7 +34,17 @@ export default function Home({ manifestos }) {
 }
 
 export async function getStaticProps() {
-  const manifestos = getManifestos()
+  const manifestoFiles = require.context('../content/manifesto', true, /\.md$/)
+  const manifestos = manifestoFiles.keys().map((fileName) => {
+    const id = fileName.replace(/^\.\//, '').replace(/\.md$/, '')
+    const { attributes } = manifestoFiles(fileName)
+    return {
+      id,
+      title: attributes.title,
+      industry: attributes.industry,
+    }
+  })
+
   return {
     props: {
       manifestos,
