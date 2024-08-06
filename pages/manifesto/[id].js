@@ -1,7 +1,5 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import Link from 'next/link'
+import { getManifestos, getManifestoById } from '../../lib/manifesto'
 
 export default function ManifestoPage({ manifesto }) {
   return (
@@ -34,9 +32,14 @@ export default function ManifestoPage({ manifesto }) {
 }
 
 export async function getStaticPaths() {
-  // ... (保持不变)
+  const manifestos = getManifestos()
+  const paths = manifestos.map((manifesto) => ({
+    params: { id: manifesto.id },
+  }))
+  return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }) {
-  // ... (保持不变)
+  const manifesto = getManifestoById(params.id)
+  return { props: { manifesto } }
 }
