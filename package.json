@@ -1,0 +1,17 @@
+{
+     "name": "manifesto-work",
+     "version": "0.1.0",
+     "private": true,
+     "scripts": {
+       "dev": "next dev",
+       "build": "next build",
+       "start": "next start"
+     },
+     "dependencies": {
+       "next": "latest",
+       "react": "latest",
+       "react-dom": "latest",
+       "gray-matter": "^4.0.3",
+       "react-markdown": "^8.0.7"
+     }
+   }
