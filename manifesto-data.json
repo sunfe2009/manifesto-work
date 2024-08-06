@@ -1,0 +1,14 @@
+[
+  {
+    "id": "apple",
+    "title": "Apple",
+    "industry": "Technology",
+    "content": "At Apple, we believe that technology should enrich human lives..."
+  },
+  {
+    "id": "google",
+    "title": "Google",
+    "industry": "Technology",
+    "content": "Google's mission is to organize the world's information and make it universally accessible and useful..."
+  }
+]
